@@ -13,7 +13,7 @@
     (lambda (str)
       (success val str))))
 
-(define @literial
+(define @literal
   (lambda (s)
     (lambda (toks cont)
       (cond
@@ -129,11 +129,11 @@
 
 (define-parser $start
   (@tag 'paren
-        (@literial "(")))
+        (@literal "(")))
 
 (define-parser $end
   (@tag 'paren
-        (@literial ")")))
+        (@literal ")")))
 
 (define-parser $atom
   (@and (list (@not $start) (@not $end))))
