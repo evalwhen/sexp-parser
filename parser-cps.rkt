@@ -30,9 +30,9 @@
 ;; parser combinator
 
 (define @not
-  (lambda (ps)
+  (lambda (p)
     (lambda (toks cont)
-      (ps toks (lambda (v)
+      (p toks (lambda (v)
                  (pretty-print "@not-cont")
                  (match v
                    [(success result rest)
