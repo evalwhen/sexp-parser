@@ -30,9 +30,9 @@
 ;; parser combinator
 
 (define @not
-  (lambda (p)
+  (lambda (ps)
     (lambda (toks cont)
-      (p toks (lambda (v)
+      (ps toks (lambda (v)
                  (pretty-print "@not-cont")
                  (match v
                    [(success result rest)
@@ -96,7 +96,6 @@
                    (pretty-print "@*-cont")
                    (match v
                      [(success result rest)
-                      (cons result nodes)
                       ((@* p (cons result nodes)) rest cont)]
                      [(failure rest)
                       (cont (success (apply append (reverse nodes))
@@ -158,9 +157,9 @@
 
 (define parse-test
   (lambda (p s)
-    (p (scan s))))
+    (p (scan s) print)))
 
-(parse-sexp "(+ 1 (/ 4 2))")
+(parse-sexp "(let (x 10) (- x 2))")
 ;; (parse-test $open "(+ 1 2)")
 ;; (parse-test $close ")")
 ;; (parse-test $close "())")
