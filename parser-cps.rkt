@@ -126,24 +126,30 @@
       ;; (pretty-print toks)
       (body toks cont))))
 
-(define-parser $start
-  (@tag 'paren
-        (@literal "(")))
+;; (define-parser $start
+;;   (@tag 'paren
+;;         (@literal "(")))
 
-(define-parser $end
-  (@tag 'paren
-        (@literal ")")))
+;; (define-parser $end
+;;   (@tag 'paren
+;;         (@literal ")")))
 
-(define-parser $atom
-  (@and (list (@not $start) (@not $end))))
+;; (define-parser $atom
+;;   (@and (list (@not $start) (@not $end))))
 
 
-(define-parser $sexp
-  (@or (list $parens $atom)))
+;; (define-parser $sexp
+;;   (@or (list $parens $atom)))
 
-(define-parser $parens
-  (@tag 'sexp
-        (@seq (list $start (@* $sexp) $end))))
+;; (define-parser $parens
+;;   (@tag 'sexp
+;;         (@seq (list $start (@* $sexp) $end))))
+(define $start (lambda (toks cont) ((@tag 'paren (@literal "(")) toks cont)))
+(define $end (lambda (toks cont) ((@tag 'paren (@literal ")")) toks cont)))
+(define $atom (lambda (toks cont) ((@and (list (@not $start) (@not $end))) toks cont)))
+(define $sexp (lambda (toks cont) ((@or (list $parens $atom)) toks cont)))
+(define $parens
+  (lambda (toks cont) ((@tag 'sexp (@seq (list $start (@* $sexp) $end))) toks cont)))
 
 (define parse-sexp
   (lambda (s)
